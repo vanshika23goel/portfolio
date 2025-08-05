@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Vanshika Goel's portfolio showcasing front-end development projects with 3D animations, built with HTML, CSS, JavaScript, and Three.js.">
+  <meta name="keywords" content="front-end developer, portfolio, Three.js, web development, Delhi, India">
+  <title>Vanshika Goel - Portfolio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@scss-lang/sass@1.54.0/dist/css/sass.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: linear-gradient(to bottom, #1a2b44, #2c3e50);
+      color: #f5f5dc;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    nav {
+      background: rgba(26, 43, 68, 0.8);
+      padding: 15px;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+    }
+    nav a {
+      color: #f5f5dc;
+      margin: 0 15px;
+      text-decoration: none;
+      font-size: 1.1em;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: #ff6b6b;
+    }
+    section {
+      padding: 60px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    #home {
+      text-align: center;
+    }
+    h1 {
+      font-size: 3em;
+      margin: 10px 0;
+    }
+    h2 {
+      font-size: 2em;
+      margin: 20px 0;
+      color: #f5f5dc;
+    }
+    #projects canvas {
+      width: 100%;
+      max-width: 600px;
+      height: 400px;
+    }
+    .project-card, .blog-card {
+      background: rgba(26, 43, 68, 0.9);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 10px;
+      max-width: 500px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .project-card:hover, .blog-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(245, 245, 220, 0.5);
+    }
+    .project-card i, .blog-card i {
+      color: #f5f5dc;
+      font-size: 1.5em;
+      margin-right: 10px;
+    }
+    #contact form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 500px;
+      width: 100%;
+    }
+    #contact input, #contact textarea {
+      padding: 10px;
+      border: 1px solid #f5f5dc;
+      border-radius: 5px;
+      background: rgba(26, 43, 68, 0.9);
+      color: #f5f5dc;
+    }
+    #contact button {
+      padding: 10px;
+      background: #f5f5dc;
+      color: #1a2b44;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    #contact button:hover {
+      transform: scale(1.1);
+    }
+    footer {
+      background: rgba(26, 43, 68, 0.8);
+      padding: 20px;
+      text-align: center;
+    }
+    footer i {
+      color: #f5f5dc;
+      font-size: 1.5em;
+      margin: 0 10px;
+      transition: transform 0.3s;
+    }
+    footer i:hover {
+      transform: scale(1.2);
+    }
+    @media (max-width: 600px) {
+      h1 { font-size: 2em; }
+      h2 { font-size: 1.5em; }
+      nav a { font-size: 0.9em; margin: 0 10px; }
+      #projects canvas { height: 300px; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#blog">Blog</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <section id="home">
+    <h1>Vanshika Goel</h1>
+    <h2>Front-End Developer & Digital Marketing Enthusiast</h2>
+    <p>Building responsive, visually stunning web apps with HTML, CSS, JavaScript, and Three.js.</p>
+  </section>
+  <section id="about">
+    <h2>About Me</h2>
+    <p>I’m a passionate front-end developer based in Delhi, India, specializing in responsive web apps, SEO, and 3D animations. My projects, like the Delhi Restaurant Directory, blend technical expertise with creative design.</p>
+  </section>
+  <section id="projects">
+    <h2>Projects</h2>
+    <canvas id="project-canvas"></canvas>
+    <div class="project-card">
+      <i class="fa-solid fa-utensils"></i>
+      <h3>Delhi Restaurant Directory</h3>
+      <p>A responsive directory with Google Maps, SEO, and a navy blue/beige theme.</p>
+      <a href="https://vanshika23goel.github.io/business-directory/" target="_blank">View Project</a>
+    </div>
+  </section>
+  <section id="skills">
+    <h2>Skills</h2>
+    <p>HTML, CSS, JavaScript, React, Three.js, GSAP, SEO, Google Analytics, Google Maps API, Font Awesome</p>
+  </section>
+  <section id="blog">
+    <h2>Blog</h2>
+    <article class="blog-card">
+      <i class="fa-solid fa-code"></i>
+      <h3>Creating 3D Animations with Three.js</h3>
+      <p>Learn how I used Three.js to add rotating project cubes to my portfolio, enhancing visual appeal.</p>
+      <a href="https://threejs.org/docs/" target="_blank">Read More</a>
+    </article>
+  </section>
+  <section id="contact">
+    <h2>Contact Me</h2>
+    <form id="contact-form">
+      <input type="text" id="name" placeholder="Your Name" required>
+      <input type="email" id="email" placeholder="Your Email" required>
+      <textarea id="message" placeholder="Your Message" rows="5" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+  <footer>
+    <p>© 2025 Vanshika Goel. All Rights Reserved.</p>
+    <div>
+      <a href="https://github.com/vanshika23goel"><i class="fa-brands fa-github"></i></a>
+      <a href="https://linkedin.com/in/your-linkedin"><i class="fa-brands fa-linkedin"></i></a>
+      <a href="https://twitter.com/your-twitter"><i class="fa-brands fa-twitter"></i></a>
+    </div>
+  </footer>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Vanshika Goel",
+      "jobTitle": "Front-End Developer",
+      "url": "https://vanshika23goel.github.io/portfolio/",
+      "sameAs": [
+        "https://github.com/vanshika23goel",
+        "https://linkedin.com/in/your-linkedin"
+      ]
+    }
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_GA_ID"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
