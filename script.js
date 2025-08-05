@@ -5,13 +5,13 @@ const particleRenderer = new THREE.WebGLRenderer({ canvas: document.getElementBy
 particleRenderer.setSize(window.innerWidth, window.innerHeight);
 
 const particles = new THREE.BufferGeometry();
-const particleCount = 1000;
+const particleCount = 800;
 const posArray = new Float32Array(particleCount * 3);
 for (let i = 0; i < particleCount * 3; i++) {
   posArray[i] = (Math.random() - 0.5) * 10;
 }
 particles.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-const particleMaterial = new THREE.PointsMaterial({ color: 0xf5f5dc, size: 0.02 });
+const particleMaterial = new THREE.PointsMaterial({ color: 0xf5f5dc, size: 0.015 });
 const particleMesh = new THREE.Points(particles, particleMaterial);
 particleScene.add(particleMesh);
 particleCamera.position.z = 5;
@@ -25,9 +25,9 @@ animateParticles();
 
 // Three.js Hero Sphere
 const heroScene = new THREE.Scene();
-const heroCamera = new THREE.PerspectiveCamera(75, window.innerWidth / 400, 0.1, 1000);
+const heroCamera = new THREE.PerspectiveCamera(75, window.innerWidth / 300, 0.1, 1000);
 const heroRenderer = new THREE.WebGLRenderer({ canvas: document.getElementById('hero-canvas'), alpha: true });
-heroRenderer.setSize(window.innerWidth > 600 ? 600 : window.innerWidth, 400);
+heroRenderer.setSize(window.innerWidth > 600 ? 400 : window.innerWidth, 300);
 
 const heroGeometry = new THREE.SphereGeometry(1, 32, 32);
 const heroTexture = new THREE.TextureLoader().load('https://via.placeholder.com/150?text=Vanshika'); // Replace with your image
@@ -50,11 +50,11 @@ function animateHeroSphere() {
 }
 animateHeroSphere();
 
-// Three.js Project Spheres
+// Three.js Project Sphere
 const projectScene = new THREE.Scene();
-const projectCamera = new THREE.PerspectiveCamera(75, window.innerWidth / 400, 0.1, 1000);
+const projectCamera = new THREE.PerspectiveCamera(75, window.innerWidth / 300, 0.1, 1000);
 const projectRenderer = new THREE.WebGLRenderer({ canvas: document.getElementById('project-canvas'), alpha: true });
-projectRenderer.setSize(window.innerWidth > 600 ? 600 : window.innerWidth, 400);
+projectRenderer.setSize(window.innerWidth > 600 ? 400 : window.innerWidth, 300);
 
 const projectGeometry = new THREE.SphereGeometry(1, 32, 32);
 const projectTexture = new THREE.TextureLoader().load('https://via.placeholder.com/150'); // Replace with project image
@@ -72,13 +72,13 @@ function animateProjectSphere() {
 animateProjectSphere();
 
 window.addEventListener('resize', () => {
-  const width = window.innerWidth > 600 ? 600 : window.innerWidth;
-  heroRenderer.setSize(width, 400);
-  heroCamera.aspect = width / 400;
+  const width = window.innerWidth > 600 ? 400 : window.innerWidth;
+  heroRenderer.setSize(width, 300);
+  heroCamera.aspect = width / 300;
   heroCamera.updateProjectionMatrix();
 
-  projectRenderer.setSize(width, 400);
-  projectCamera.aspect = width / 400;
+  projectRenderer.setSize(width, 300);
+  projectCamera.aspect = width / 300;
   projectCamera.updateProjectionMatrix();
 
   particleRenderer.setSize(window.innerWidth, window.innerHeight);
@@ -88,10 +88,11 @@ window.addEventListener('resize', () => {
 
 // GSAP Animations
 gsap.utils.toArray('section').forEach(section => {
-  gsap.from(section, {
+  gsap.from(section.children, {
     opacity: 0,
-    y: 50,
-    duration: 1,
+    scale: 0.9,
+    stagger: 0.2,
+    duration: 0.5,
     scrollTrigger: {
       trigger: section,
       start: 'top 80%',
@@ -138,29 +139,30 @@ type();
 
 // Vanilla Tilt
 VanillaTilt.init(document.querySelectorAll('[data-tilt]'), {
-  max: 25,
+  max: 15,
   speed: 400,
   glare: true,
-  'max-glare': 0.5
-});
-
-// Sidebar Toggle
-const menuToggle = document.querySelector('.menu-toggle');
-const sidebar = document.querySelector('.sidebar');
-const main = document.querySelector('main');
-menuToggle.addEventListener('click', () => {
-  sidebar.classList.toggle('active');
-  main.classList.toggle('shifted');
+  'max-glare': 0.3
 });
 
 // Custom Cursor
 const cursor = document.getElementById('cursor');
+function animateCursor() {
+  gsap.to(cursor, {
+    scale: 1.2,
+    duration: 0.5,
+    repeat: -1,
+    yoyo: true,
+    ease: 'power1.inOut'
+  });
+}
+animateCursor();
 document.addEventListener('mousemove', (e) => {
   cursor.style.left = e.clientX + 'px';
   cursor.style.top = e.clientY + 'px';
 });
 
-document.querySelectorAll('a, .project-card, .blog-card, .skill-card, .resume-btn').forEach(el => {
+document.querySelectorAll('a, .card, .resume-btn').forEach(el => {
   el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
   el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
 });
