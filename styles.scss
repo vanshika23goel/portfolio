@@ -9,7 +9,7 @@ body {
   color: $beige;
 }
 
-nav {
+.sidebar {
   a {
     &:hover {
       color: $accent;
@@ -35,7 +35,14 @@ h1 span {
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-.project-card, .blog-card {
+#home {
+  #typewriter {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+}
+
+.project-card, .blog-card, .skill-card {
   &[data-tilt] {
     transform-style: preserve-3d;
   }
@@ -44,18 +51,9 @@ h1 span {
   }
 }
 
-#contact {
-  a {
-    color: $beige;
-    text-decoration: underline;
-    &:hover {
-      color: $accent;
-    }
-  }
-}
-
 @media (max-width: 600px) {
-  #projects canvas {
+  #home canvas, #projects canvas {
     height: 250px;
   }
+  #cursor { display: none; }
 }
