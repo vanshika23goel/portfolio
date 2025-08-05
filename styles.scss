@@ -1,0 +1,46 @@
+$navy-blue: #1a2b44;
+$beige: #f5f5dc;
+$accent: #ff6b6b;
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: linear-gradient(to bottom, $navy-blue, darken($navy-blue, 10%));
+  color: $beige;
+}
+
+nav {
+  a {
+    &:hover {
+      color: $accent;
+    }
+  }
+}
+
+section {
+  &.animate {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    &.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+#contact {
+  form {
+    input, textarea {
+      &:focus {
+        outline: 2px solid $beige;
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  #projects canvas {
+    height: 250px;
+  }
+}
