@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Vanshika Goel's portfolio with interactive 3D animations using Three.js, showcasing front-end development projects.">
+  <meta name="description" content="Vanshika Goel's portfolio with interactive 3D animations, a dynamic layout, and full-site particle background using Three.js.">
   <meta name="keywords" content="front-end developer, portfolio, Three.js, web development, animations, Delhi, India">
   <title>Vanshika Goel - Portfolio</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -17,7 +17,16 @@
       color: #f5f5dc;
       min-height: 100vh;
       overflow-x: hidden;
-      cursor: none;
+      position: relative;
+    }
+    #particle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.5;
     }
     #cursor {
       position: fixed;
@@ -33,26 +42,49 @@
       transform: scale(1.5);
       background: rgba(245, 245, 220, 0.3);
     }
-    nav {
-      background: rgba(26, 43, 68, 0.8);
-      padding: 15px;
+    .sidebar {
       position: fixed;
-      width: 100%;
       top: 0;
+      left: -250px;
+      width: 250px;
+      height: 100%;
+      background: rgba(26, 43, 68, 0.9);
+      padding: 20px;
+      transition: left 0.3s ease;
       z-index: 100;
     }
-    nav a {
+    .sidebar.active {
+      left: 0;
+    }
+    .sidebar a {
       color: #f5f5dc;
-      margin: 0 15px;
+      display: block;
+      margin: 15px 0;
       text-decoration: none;
-      font-size: 1.1em;
+      font-size: 1.2em;
       transition: color 0.3s;
     }
-    nav a:hover {
+    .sidebar a:hover {
       color: #ff6b6b;
     }
+    .menu-toggle {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      font-size: 1.5em;
+      color: #f5f5dc;
+      cursor: pointer;
+      z-index: 101;
+    }
+    main {
+      margin-left: 0;
+      transition: margin-left 0.3s ease;
+    }
+    main.shifted {
+      margin-left: 250px;
+    }
     section {
-      padding: 60px 20px;
+      padding: 80px 20px;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -64,31 +96,29 @@
       position: relative;
     }
     #home canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
-      height: 100%;
-      z-index: -1;
+      max-width: 600px;
+      height: 400px;
+      margin: 20px auto;
     }
     h1 {
-      font-size: 3em;
+      font-size: 3.5em;
       margin: 10px 0;
     }
     h1 span {
       display: inline-block;
     }
     h2 {
-      font-size: 2em;
+      font-size: 2.2em;
       margin: 20px 0;
       color: #f5f5dc;
     }
-    #projects canvas {
-      width: 100%;
-      max-width: 600px;
-      height: 400px;
+    #typewriter {
+      font-size: 1.5em;
+      color: #f5f5dc;
+      min-height: 2em;
     }
-    .project-card, .blog-card {
+    .project-card, .blog-card, .skill-card {
       background: rgba(26, 43, 68, 0.9);
       border-radius: 10px;
       padding: 20px;
@@ -96,17 +126,39 @@
       max-width: 500px;
       transition: border 0.3s;
     }
-    .project-card:hover, .blog-card:hover {
+    .project-card:hover, .blog-card:hover, .skill-card:hover {
       border: 2px solid #f5f5dc;
+      animation: glow 1.5s infinite;
     }
-    .project-card i, .blog-card i {
+    .project-card i, .blog-card i, .skill-card i {
       color: #f5f5dc;
       font-size: 1.5em;
       margin-right: 10px;
     }
-    #contact p {
-      max-width: 500px;
-      text-align: center;
+    #projects canvas {
+      width: 100%;
+      max-width: 600px;
+      height: 400px;
+    }
+    #about a, #contact a {
+      color: #f5f5dc;
+      text-decoration: underline;
+      transition: color 0.3s;
+    }
+    #about a:hover, #contact a:hover {
+      color: #ff6b6b;
+    }
+    #about .resume-btn {
+      padding: 10px 20px;
+      background: #f5f5dc;
+      color: #1a2b44;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: transform 0.2s;
+    }
+    #about .resume-btn:hover {
+      transform: scale(1.1);
     }
     footer {
       background: rgba(26, 43, 68, 0.8);
@@ -122,18 +174,25 @@
     footer i:hover {
       transform: scale(1.2);
     }
+    @keyframes glow {
+      0% { box-shadow: 0 0 5px #f5f5dc; }
+      50% { box-shadow: 0 0 20px #f5f5dc; }
+      100% { box-shadow: 0 0 5px #f5f5dc; }
+    }
     @media (max-width: 600px) {
-      h1 { font-size: 2em; }
-      h2 { font-size: 1.5em; }
-      nav a { font-size: 0.9em; margin: 0 10px; }
-      #projects canvas { height: 300px; }
-      #cursor { display: none; }
+      h1 { font-size: 2.5em; }
+      h2 { font-size: 1.8em; }
+      #home canvas, #projects canvas { height: 300px; }
+      main.shifted { margin-left: 0; }
+      .sidebar { width: 200px; }
     }
   </style>
 </head>
 <body>
+  <canvas id="particle-canvas"></canvas>
   <div id="cursor"></div>
-  <nav>
+  <i class="fa-solid fa-bars menu-toggle"></i>
+  <nav class="sidebar">
     <a href="#home">Home</a>
     <a href="#about">About</a>
     <a href="#projects">Projects</a>
@@ -141,46 +200,67 @@
     <a href="#blog">Blog</a>
     <a href="#contact">Contact</a>
   </nav>
-  <section id="home">
-    <canvas id="particle-canvas"></canvas>
-    <h1>
-      <span>V</span><span>a</span><span>n</span><span>s</span><span>h</span><span>i</span><span>k</span><span>a</span>
-      <span>G</span><span>o</span><span>e</span><span>l</span>
-    </h1>
-    <h2>Front-End Developer & Digital Marketing Enthusiast</h2>
-    <p>Building immersive web apps with 3D animations and creative designs.</p>
-  </section>
-  <section id="about">
-    <h2>About Me</h2>
-    <p>I’m a passionate front-end developer based in Delhi, India, specializing in responsive web apps, 3D animations with Three.js, and SEO. My projects, like this portfolio and the Delhi Restaurant Directory, showcase technical and creative skills.</p>
-  </section>
-  <section id="projects">
-    <h2>Projects</h2>
-    <canvas id="project-canvas"></canvas>
-    <div class="project-card" data-tilt>
-      <i class="fa-solid fa-utensils"></i>
-      <h3>Delhi Restaurant Directory</h3>
-      <p>A responsive directory with Google Maps, SEO, and a navy blue/beige theme.</p>
-      <a href="https://vanshika23goel.github.io/business-directory/" target="_blank">View Project</a>
-    </div>
-  </section>
-  <section id="skills">
-    <h2>Skills</h2>
-    <p>HTML, CSS, JavaScript, Three.js, GSAP, SEO, Font Awesome, Vanilla Tilt</p>
-  </section>
-  <section id="blog">
-    <h2>Blog</h2>
-    <article class="blog-card" data-tilt>
-      <i class="fa-solid fa-code"></i>
-      <h3>Mastering 3D Animations with Three.js</h3>
-      <p>Discover how I created interactive 3D spheres for my portfolio, enhancing user engagement with Three.js.</p>
-      <a href="https://threejs.org/docs/" target="_blank">Read More</a>
-    </article>
-  </section>
-  <section id="contact">
-    <h2>Contact Me</h2>
-    <p>Reach out via email at <a href="mailto:your-email@example.com">your-email@example.com</a> or connect on LinkedIn!</p>
-  </section>
+  <main>
+    <section id="home">
+      <canvas id="hero-canvas"></canvas>
+      <h1>
+        <span>V</span><span>a</span><span>n</span><span>s</span><span>h</span><span>i</span><span>k</span><span>a</span>
+        <span>G</span><span>o</span><span>e</span><span>l</span>
+      </h1>
+      <p id="typewriter"></p>
+    </section>
+    <section id="about">
+      <h2>About Me</h2>
+      <p>I’m a passionate front-end developer based in Delhi, India, with expertise in crafting responsive, animated web apps using HTML, CSS, JavaScript, and Three.js. My projects, like this portfolio and the Delhi Restaurant Directory, blend technical precision with creative design to deliver engaging user experiences.</p>
+      <p><strong>Contact Details:</strong></p>
+      <p>Email: <a href="mailto:your-email@example.com">your-email@example.com</a></p>
+      <p>LinkedIn: <a href="https://linkedin.com/in/your-linkedin" target="_blank">linkedin.com/in/your-linkedin</a></p>
+      <p>GitHub: <a href="https://github.com/vanshika23goel" target="_blank">github.com/vanshika23goel</a></p>
+      <p>Twitter: <a href="https://twitter.com/your-twitter" target="_blank">twitter.com/your-twitter</a></p>
+      <p>Location: Delhi, India</p>
+      <a href="/path/to/resume.pdf" class="resume-btn" download>Download Resume</a>
+    </section>
+    <section id="projects">
+      <h2>Projects</h2>
+      <canvas id="project-canvas"></canvas>
+      <div class="project-card" data-tilt>
+        <i class="fa-solid fa-utensils"></i>
+        <h3>Delhi Restaurant Directory</h3>
+        <p>A responsive directory with Google Maps, SEO, and a navy blue/beige theme.</p>
+        <a href="https://vanshika23goel.github.io/business-directory/" target="_blank">View Project</a>
+      </div>
+      <div class="project-card" data-tilt>
+        <i class="fa-solid fa-gamepad"></i>
+        <h3>Tic-Tac-Toe Game</h3>
+        <p>An interactive game built with HTML, CSS, and JavaScript.</p>
+        <a href="https://vanshika23goel.github.io/tic-tac-toe/" target="_blank">View Project</a>
+      </div>
+    </section>
+    <section id="skills">
+      <h2>Skills</h2>
+      <div class="skill-card" data-tilt>
+        <i class="fa-solid fa-code"></i>
+        <p>HTML, CSS, JavaScript, Three.js, GSAP, Vanilla Tilt, SEO</p>
+      </div>
+      <div class="skill-card" data-tilt>
+        <i class="fa-solid fa-paint-brush"></i>
+        <p>UI/UX Design, Responsive Design, Animation</p>
+      </div>
+    </section>
+    <section id="blog">
+      <h2>Blog</h2>
+      <article class="blog-card" data-tilt>
+        <i class="fa-solid fa-code"></i>
+        <h3>Mastering 3D Animations with Three.js</h3>
+        <p>Explore how I created interactive 3D spheres and particle backgrounds for my portfolio using Three.js.</p>
+        <a href="https://threejs.org/docs/" target="_blank">Read More</a>
+      </article>
+    </section>
+    <section id="contact">
+      <h2>Contact Me</h2>
+      <p>Reach out via <a href="mailto:your-email@example.com">your-email@example.com</a> or connect on <a href="https://linkedin.com/in/your-linkedin" target="_blank">LinkedIn</a>!</p>
+    </section>
+  </main>
   <footer>
     <p>© 2025 Vanshika Goel. All Rights Reserved.</p>
     <div>
@@ -198,8 +278,14 @@
       "url": "https://vanshika23goel.github.io/portfolio/",
       "sameAs": [
         "https://github.com/vanshika23goel",
-        "https://linkedin.com/in/your-linkedin"
-      ]
+        "https://linkedin.com/in/your-linkedin",
+        "https://twitter.com/your-twitter"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Delhi",
+        "addressCountry": "IN"
+      }
     }
   </script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
