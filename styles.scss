@@ -29,12 +29,27 @@ section {
   }
 }
 
+h1 span {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.project-card, .blog-card {
+  &[data-tilt] {
+    transform-style: preserve-3d;
+  }
+  h3, p, a {
+    transform: translateZ(20px);
+  }
+}
+
 #contact {
-  form {
-    input, textarea {
-      &:focus {
-        outline: 2px solid $beige;
-      }
+  a {
+    color: $beige;
+    text-decoration: underline;
+    &:hover {
+      color: $accent;
     }
   }
 }
