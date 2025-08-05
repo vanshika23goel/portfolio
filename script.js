@@ -23,18 +23,18 @@ function animateParticles() {
 }
 animateParticles();
 
-// Three.js Project Spheres
-const projectScene = new THREE.Scene();
-const projectCamera = new THREE.PerspectiveCamera(75, window.innerWidth / 400, 0.1, 1000);
-const projectRenderer = new THREE.WebGLRenderer({ canvas: document.getElementById('project-canvas'), alpha: true });
-projectRenderer.setSize(window.innerWidth > 600 ? 600 : window.innerWidth, 400);
+// Three.js Hero Sphere
+const heroScene = new THREE.Scene();
+const heroCamera = new THREE.PerspectiveCamera(75, window.innerWidth / 400, 0.1, 1000);
+const heroRenderer = new THREE.WebGLRenderer({ canvas: document.getElementById('hero-canvas'), alpha: true });
+heroRenderer.setSize(window.innerWidth > 600 ? 600 : window.innerWidth, 400);
 
-const geometry = new THREE.SphereGeometry(1, 32, 32);
-const texture = new THREE.TextureLoader().load('https://via.placeholder.com/150'); // Replace with project image
-const material = new THREE.MeshBasicMaterial({ map: texture });
-const sphere = new THREE.Mesh(geometry, material);
-projectScene.add(sphere);
-projectCamera.position.z = 3;
+const heroGeometry = new THREE.SphereGeometry(1, 32, 32);
+const heroTexture = new THREE.TextureLoader().load('https://via.placeholder.com/150?text=Vanshika'); // Replace with your image
+const heroMaterial = new THREE.MeshBasicMaterial({ map: heroTexture });
+const heroSphere = new THREE.Mesh(heroGeometry, heroMaterial);
+heroScene.add(heroSphere);
+heroCamera.position.z = 3;
 
 let mouseX = 0, mouseY = 0;
 document.addEventListener('mousemove', (e) => {
@@ -42,16 +42,41 @@ document.addEventListener('mousemove', (e) => {
   mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
 });
 
-function animateSphere() {
-  requestAnimationFrame(animateSphere);
-  sphere.rotation.y += 0.01 + mouseX * 0.05;
-  sphere.rotation.x += mouseY * 0.05;
+function animateHeroSphere() {
+  requestAnimationFrame(animateHeroSphere);
+  heroSphere.rotation.y += 0.01 + mouseX * 0.05;
+  heroSphere.rotation.x += mouseY * 0.05;
+  heroRenderer.render(heroScene, heroCamera);
+}
+animateHeroSphere();
+
+// Three.js Project Spheres
+const projectScene = new THREE.Scene();
+const projectCamera = new THREE.PerspectiveCamera(75, window.innerWidth / 400, 0.1, 1000);
+const projectRenderer = new THREE.WebGLRenderer({ canvas: document.getElementById('project-canvas'), alpha: true });
+projectRenderer.setSize(window.innerWidth > 600 ? 600 : window.innerWidth, 400);
+
+const projectGeometry = new THREE.SphereGeometry(1, 32, 32);
+const projectTexture = new THREE.TextureLoader().load('https://via.placeholder.com/150'); // Replace with project image
+const projectMaterial = new THREE.MeshBasicMaterial({ map: projectTexture });
+const projectSphere = new THREE.Mesh(projectGeometry, projectMaterial);
+projectScene.add(projectSphere);
+projectCamera.position.z = 3;
+
+function animateProjectSphere() {
+  requestAnimationFrame(animateProjectSphere);
+  projectSphere.rotation.y += 0.01 + mouseX * 0.05;
+  projectSphere.rotation.x += mouseY * 0.05;
   projectRenderer.render(projectScene, projectCamera);
 }
-animateSphere();
+animateProjectSphere();
 
 window.addEventListener('resize', () => {
   const width = window.innerWidth > 600 ? 600 : window.innerWidth;
+  heroRenderer.setSize(width, 400);
+  heroCamera.aspect = width / 400;
+  heroCamera.updateProjectionMatrix();
+
   projectRenderer.setSize(width, 400);
   projectCamera.aspect = width / 400;
   projectCamera.updateProjectionMatrix();
@@ -83,12 +108,49 @@ gsap.from('#home h1 span', {
   delay: 0.5
 });
 
+// Typewriter Effect
+const typewriter = document.getElementById('typewriter');
+const phrases = ['Front-End Developer', '3D Animation Enthusiast', 'Creative Designer'];
+let phraseIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+
+function type() {
+  const currentPhrase = phrases[phraseIndex];
+  typewriter.textContent = currentPhrase.substring(0, charIndex);
+  gsap.to(typewriter, { opacity: 1, duration: 0.5 });
+
+  if (!isDeleting && charIndex < currentPhrase.length) {
+    charIndex++;
+  } else if (isDeleting && charIndex > 0) {
+    charIndex--;
+  } else if (!isDeleting && charIndex === currentPhrase.length) {
+    isDeleting = true;
+    setTimeout(type, 1000);
+    return;
+  } else if (isDeleting && charIndex === 0) {
+    isDeleting = false;
+    phraseIndex = (phraseIndex + 1) % phrases.length;
+  }
+  setTimeout(type, isDeleting ? 50 : 100);
+}
+type();
+
 // Vanilla Tilt
 VanillaTilt.init(document.querySelectorAll('[data-tilt]'), {
   max: 25,
   speed: 400,
   glare: true,
   'max-glare': 0.5
+});
+
+// Sidebar Toggle
+const menuToggle = document.querySelector('.menu-toggle');
+const sidebar = document.querySelector('.sidebar');
+const main = document.querySelector('main');
+menuToggle.addEventListener('click', () => {
+  sidebar.classList.toggle('active');
+  main.classList.toggle('shifted');
 });
 
 // Custom Cursor
@@ -98,7 +160,7 @@ document.addEventListener('mousemove', (e) => {
   cursor.style.top = e.clientY + 'px';
 });
 
-document.querySelectorAll('a, .project-card, .blog-card').forEach(el => {
+document.querySelectorAll('a, .project-card, .blog-card, .skill-card, .resume-btn').forEach(el => {
   el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
   el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
 });
