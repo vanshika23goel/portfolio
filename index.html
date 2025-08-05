@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Vanshika Goel's portfolio with interactive 3D animations, a dynamic layout, and full-site particle background using Three.js.">
+  <meta name="description" content="Vanshika Goel's portfolio with vibrant 3D animations and a compact grid layout using Three.js, GSAP, and modern design.">
   <meta name="keywords" content="front-end developer, portfolio, Three.js, web development, animations, Delhi, India">
   <title>Vanshika Goel - Portfolio</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -15,7 +15,6 @@
       margin: 0;
       background: linear-gradient(to bottom, #1a2b44, #2c3e50);
       color: #f5f5dc;
-      min-height: 100vh;
       overflow-x: hidden;
       position: relative;
     }
@@ -26,7 +25,7 @@
       width: 100%;
       height: 100%;
       z-index: -1;
-      opacity: 0.5;
+      opacity: 0.3;
     }
     #cursor {
       position: fixed;
@@ -42,126 +41,116 @@
       transform: scale(1.5);
       background: rgba(245, 245, 220, 0.3);
     }
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: -250px;
-      width: 250px;
-      height: 100%;
+    header {
       background: rgba(26, 43, 68, 0.9);
-      padding: 20px;
-      transition: left 0.3s ease;
+      padding: 15px;
+      position: sticky;
+      top: 0;
       z-index: 100;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
     }
-    .sidebar.active {
-      left: 0;
-    }
-    .sidebar a {
+    header a {
       color: #f5f5dc;
-      display: block;
-      margin: 15px 0;
       text-decoration: none;
-      font-size: 1.2em;
-      transition: color 0.3s;
+      font-size: 1.1em;
+      transition: color 0.3s, transform 0.3s;
     }
-    .sidebar a:hover {
+    header a:hover {
       color: #ff6b6b;
-    }
-    .menu-toggle {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      font-size: 1.5em;
-      color: #f5f5dc;
-      cursor: pointer;
-      z-index: 101;
+      transform: scale(1.1);
     }
     main {
-      margin-left: 0;
-      transition: margin-left 0.3s ease;
-    }
-    main.shifted {
-      margin-left: 250px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
     section {
-      padding: 80px 20px;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      margin: 40px 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      align-items: stretch;
     }
     #home {
       text-align: center;
-      position: relative;
+      min-height: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     #home canvas {
       width: 100%;
-      max-width: 600px;
-      height: 400px;
+      max-width: 400px;
+      height: 300px;
       margin: 20px auto;
     }
     h1 {
-      font-size: 3.5em;
+      font-size: 2.5em;
       margin: 10px 0;
     }
     h1 span {
       display: inline-block;
     }
     h2 {
-      font-size: 2.2em;
-      margin: 20px 0;
+      font-size: 1.8em;
+      margin: 10px 0;
       color: #f5f5dc;
     }
     #typewriter {
-      font-size: 1.5em;
+      font-size: 1.2em;
       color: #f5f5dc;
-      min-height: 2em;
+      min-height: 1.5em;
     }
-    .project-card, .blog-card, .skill-card {
-      background: rgba(26, 43, 68, 0.9);
+    .card {
+      background: rgba(26, 43, 68, 0.7);
+      border: 1px solid rgba(245, 245, 220, 0.2);
       border-radius: 10px;
       padding: 20px;
-      margin: 10px;
-      max-width: 500px;
-      transition: border 0.3s;
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s, border 0.3s;
+      position: relative;
+      overflow: hidden;
     }
-    .project-card:hover, .blog-card:hover, .skill-card:hover {
-      border: 2px solid #f5f5dc;
+    .card:hover {
+      transform: scale(1.05);
+      border: 1px solid #f5f5dc;
       animation: glow 1.5s infinite;
     }
-    .project-card i, .blog-card i, .skill-card i {
+    .card i {
       color: #f5f5dc;
       font-size: 1.5em;
       margin-right: 10px;
     }
     #projects canvas {
       width: 100%;
-      max-width: 600px;
-      height: 400px;
+      max-width: 400px;
+      height: 300px;
     }
-    #about a, #contact a {
+    .card a {
       color: #f5f5dc;
       text-decoration: underline;
       transition: color 0.3s;
     }
-    #about a:hover, #contact a:hover {
+    .card a:hover {
       color: #ff6b6b;
     }
-    #about .resume-btn {
+    .resume-btn {
       padding: 10px 20px;
       background: #f5f5dc;
       color: #1a2b44;
       border: none;
       border-radius: 5px;
       text-decoration: none;
+      display: inline-block;
       transition: transform 0.2s;
     }
-    #about .resume-btn:hover {
+    .resume-btn:hover {
       transform: scale(1.1);
     }
     footer {
-      background: rgba(26, 43, 68, 0.8);
+      background: rgba(26, 43, 68, 0.9);
       padding: 20px;
       text-align: center;
     }
@@ -176,30 +165,29 @@
     }
     @keyframes glow {
       0% { box-shadow: 0 0 5px #f5f5dc; }
-      50% { box-shadow: 0 0 20px #f5f5dc; }
+      50% { box-shadow: 0 0 15px #f5f5dc; }
       100% { box-shadow: 0 0 5px #f5f5dc; }
     }
     @media (max-width: 600px) {
-      h1 { font-size: 2.5em; }
-      h2 { font-size: 1.8em; }
-      #home canvas, #projects canvas { height: 300px; }
-      main.shifted { margin-left: 0; }
-      .sidebar { width: 200px; }
+      h1 { font-size: 2em; }
+      h2 { font-size: 1.5em; }
+      header a { font-size: 0.9em; }
+      #home canvas, #projects canvas { height: 200px; }
+      #cursor { display: none; }
+      section { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
   <canvas id="particle-canvas"></canvas>
   <div id="cursor"></div>
-  <i class="fa-solid fa-bars menu-toggle"></i>
-  <nav class="sidebar">
+  <header>
     <a href="#home">Home</a>
     <a href="#about">About</a>
     <a href="#projects">Projects</a>
     <a href="#skills">Skills</a>
     <a href="#blog">Blog</a>
-    <a href="#contact">Contact</a>
-  </nav>
+  </header>
   <main>
     <section id="home">
       <canvas id="hero-canvas"></canvas>
@@ -210,55 +198,53 @@
       <p id="typewriter"></p>
     </section>
     <section id="about">
-      <h2>About Me</h2>
-      <p>I’m a passionate front-end developer based in Delhi, India, with expertise in crafting responsive, animated web apps using HTML, CSS, JavaScript, and Three.js. My projects, like this portfolio and the Delhi Restaurant Directory, blend technical precision with creative design to deliver engaging user experiences.</p>
-      <p><strong>Contact Details:</strong></p>
-      <p>Email: <a href="mailto:your-email@example.com">your-email@example.com</a></p>
-      <p>LinkedIn: <a href="https://linkedin.com/in/your-linkedin" target="_blank">linkedin.com/in/your-linkedin</a></p>
-      <p>GitHub: <a href="https://github.com/vanshika23goel" target="_blank">github.com/vanshika23goel</a></p>
-      <p>Twitter: <a href="https://twitter.com/your-twitter" target="_blank">twitter.com/your-twitter</a></p>
-      <p>Location: Delhi, India</p>
-      <a href="/path/to/resume.pdf" class="resume-btn" download>Download Resume</a>
+      <div class="card" data-tilt>
+        <h2>About & Contact</h2>
+        <p>Front-end developer based in Delhi, India, passionate about creating responsive, animated web apps with Three.js and GSAP.</p>
+        <p><i class="fa-solid fa-envelope"></i>Email: <a href="mailto:your-email@example.com">your-email@example.com</a></p>
+        <p><i class="fa-brands fa-linkedin"></i>LinkedIn: <a href="https://linkedin.com/in/your-linkedin" target="_blank">linkedin.com/in/your-linkedin</a></p>
+        <p><i class="fa-brands fa-github"></i>GitHub: <a href="https://github.com/vanshika23goel" target="_blank">github.com/vanshika23goel</a></p>
+        <p><i class="fa-brands fa-twitter"></i>Twitter: <a href="https://twitter.com/your-twitter" target="_blank">twitter.com/your-twitter</a></p>
+        <p><i class="fa-solid fa-map-marker-alt"></i>Location: Delhi, India</p>
+        <a href="/resume.pdf" class="resume-btn" download>Download Resume</a>
+      </div>
     </section>
     <section id="projects">
-      <h2>Projects</h2>
-      <canvas id="project-canvas"></canvas>
-      <div class="project-card" data-tilt>
+      <div class="card" data-tilt>
+        <canvas id="project-canvas"></canvas>
+      </div>
+      <div class="card" data-tilt>
         <i class="fa-solid fa-utensils"></i>
-        <h3>Delhi Restaurant Directory</h3>
+        <h2>Delhi Restaurant Directory</h2>
         <p>A responsive directory with Google Maps, SEO, and a navy blue/beige theme.</p>
         <a href="https://vanshika23goel.github.io/business-directory/" target="_blank">View Project</a>
       </div>
-      <div class="project-card" data-tilt>
+      <div class="card" data-tilt>
         <i class="fa-solid fa-gamepad"></i>
-        <h3>Tic-Tac-Toe Game</h3>
+        <h2>Tic-Tac-Toe Game</h2>
         <p>An interactive game built with HTML, CSS, and JavaScript.</p>
         <a href="https://vanshika23goel.github.io/tic-tac-toe/" target="_blank">View Project</a>
       </div>
     </section>
     <section id="skills">
-      <h2>Skills</h2>
-      <div class="skill-card" data-tilt>
+      <div class="card" data-tilt>
         <i class="fa-solid fa-code"></i>
+        <h2>Technical Skills</h2>
         <p>HTML, CSS, JavaScript, Three.js, GSAP, Vanilla Tilt, SEO</p>
       </div>
-      <div class="skill-card" data-tilt>
+      <div class="card" data-tilt>
         <i class="fa-solid fa-paint-brush"></i>
+        <h2>Design Skills</h2>
         <p>UI/UX Design, Responsive Design, Animation</p>
       </div>
     </section>
     <section id="blog">
-      <h2>Blog</h2>
-      <article class="blog-card" data-tilt>
+      <div class="card" data-tilt>
         <i class="fa-solid fa-code"></i>
-        <h3>Mastering 3D Animations with Three.js</h3>
-        <p>Explore how I created interactive 3D spheres and particle backgrounds for my portfolio using Three.js.</p>
+        <h2>Blog: Three.js Animations</h2>
+        <p>Learn how I built interactive 3D spheres and particle backgrounds with Three.js.</p>
         <a href="https://threejs.org/docs/" target="_blank">Read More</a>
-      </article>
-    </section>
-    <section id="contact">
-      <h2>Contact Me</h2>
-      <p>Reach out via <a href="mailto:your-email@example.com">your-email@example.com</a> or connect on <a href="https://linkedin.com/in/your-linkedin" target="_blank">LinkedIn</a>!</p>
+      </div>
     </section>
   </main>
   <footer>
