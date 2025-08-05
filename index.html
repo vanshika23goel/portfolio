@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Vanshika Goel's portfolio showcasing front-end development projects with 3D animations, built with HTML, CSS, JavaScript, and Three.js.">
-  <meta name="keywords" content="front-end developer, portfolio, Three.js, web development, Delhi, India">
+  <meta name="description" content="Vanshika Goel's portfolio with interactive 3D animations using Three.js, showcasing front-end development projects.">
+  <meta name="keywords" content="front-end developer, portfolio, Three.js, web development, animations, Delhi, India">
   <title>Vanshika Goel - Portfolio</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@scss-lang/sass@1.54.0/dist/css/sass.min.css">
@@ -17,6 +17,21 @@
       color: #f5f5dc;
       min-height: 100vh;
       overflow-x: hidden;
+      cursor: none;
+    }
+    #cursor {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #f5f5dc;
+      border-radius: 50%;
+      pointer-events: none;
+      transition: transform 0.2s, background 0.2s;
+      z-index: 1000;
+    }
+    #cursor.hover {
+      transform: scale(1.5);
+      background: rgba(245, 245, 220, 0.3);
     }
     nav {
       background: rgba(26, 43, 68, 0.8);
@@ -46,10 +61,22 @@
     }
     #home {
       text-align: center;
+      position: relative;
+    }
+    #home canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
     }
     h1 {
       font-size: 3em;
       margin: 10px 0;
+    }
+    h1 span {
+      display: inline-block;
     }
     h2 {
       font-size: 2em;
@@ -67,42 +94,19 @@
       padding: 20px;
       margin: 10px;
       max-width: 500px;
-      transition: transform 0.3s, box-shadow 0.3s;
+      transition: border 0.3s;
     }
     .project-card:hover, .blog-card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 12px rgba(245, 245, 220, 0.5);
+      border: 2px solid #f5f5dc;
     }
     .project-card i, .blog-card i {
       color: #f5f5dc;
       font-size: 1.5em;
       margin-right: 10px;
     }
-    #contact form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+    #contact p {
       max-width: 500px;
-      width: 100%;
-    }
-    #contact input, #contact textarea {
-      padding: 10px;
-      border: 1px solid #f5f5dc;
-      border-radius: 5px;
-      background: rgba(26, 43, 68, 0.9);
-      color: #f5f5dc;
-    }
-    #contact button {
-      padding: 10px;
-      background: #f5f5dc;
-      color: #1a2b44;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-    #contact button:hover {
-      transform: scale(1.1);
+      text-align: center;
     }
     footer {
       background: rgba(26, 43, 68, 0.8);
@@ -123,10 +127,12 @@
       h2 { font-size: 1.5em; }
       nav a { font-size: 0.9em; margin: 0 10px; }
       #projects canvas { height: 300px; }
+      #cursor { display: none; }
     }
   </style>
 </head>
 <body>
+  <div id="cursor"></div>
   <nav>
     <a href="#home">Home</a>
     <a href="#about">About</a>
@@ -136,18 +142,22 @@
     <a href="#contact">Contact</a>
   </nav>
   <section id="home">
-    <h1>Vanshika Goel</h1>
+    <canvas id="particle-canvas"></canvas>
+    <h1>
+      <span>V</span><span>a</span><span>n</span><span>s</span><span>h</span><span>i</span><span>k</span><span>a</span>
+      <span>G</span><span>o</span><span>e</span><span>l</span>
+    </h1>
     <h2>Front-End Developer & Digital Marketing Enthusiast</h2>
-    <p>Building responsive, visually stunning web apps with HTML, CSS, JavaScript, and Three.js.</p>
+    <p>Building immersive web apps with 3D animations and creative designs.</p>
   </section>
   <section id="about">
     <h2>About Me</h2>
-    <p>I’m a passionate front-end developer based in Delhi, India, specializing in responsive web apps, SEO, and 3D animations. My projects, like the Delhi Restaurant Directory, blend technical expertise with creative design.</p>
+    <p>I’m a passionate front-end developer based in Delhi, India, specializing in responsive web apps, 3D animations with Three.js, and SEO. My projects, like this portfolio and the Delhi Restaurant Directory, showcase technical and creative skills.</p>
   </section>
   <section id="projects">
     <h2>Projects</h2>
     <canvas id="project-canvas"></canvas>
-    <div class="project-card">
+    <div class="project-card" data-tilt>
       <i class="fa-solid fa-utensils"></i>
       <h3>Delhi Restaurant Directory</h3>
       <p>A responsive directory with Google Maps, SEO, and a navy blue/beige theme.</p>
@@ -156,25 +166,20 @@
   </section>
   <section id="skills">
     <h2>Skills</h2>
-    <p>HTML, CSS, JavaScript, React, Three.js, GSAP, SEO, Google Analytics, Google Maps API, Font Awesome</p>
+    <p>HTML, CSS, JavaScript, Three.js, GSAP, SEO, Font Awesome, Vanilla Tilt</p>
   </section>
   <section id="blog">
     <h2>Blog</h2>
-    <article class="blog-card">
+    <article class="blog-card" data-tilt>
       <i class="fa-solid fa-code"></i>
-      <h3>Creating 3D Animations with Three.js</h3>
-      <p>Learn how I used Three.js to add rotating project cubes to my portfolio, enhancing visual appeal.</p>
+      <h3>Mastering 3D Animations with Three.js</h3>
+      <p>Discover how I created interactive 3D spheres for my portfolio, enhancing user engagement with Three.js.</p>
       <a href="https://threejs.org/docs/" target="_blank">Read More</a>
     </article>
   </section>
   <section id="contact">
     <h2>Contact Me</h2>
-    <form id="contact-form">
-      <input type="text" id="name" placeholder="Your Name" required>
-      <input type="email" id="email" placeholder="Your Email" required>
-      <textarea id="message" placeholder="Your Message" rows="5" required></textarea>
-      <button type="submit">Send Message</button>
-    </form>
+    <p>Reach out via email at <a href="mailto:your-email@example.com">your-email@example.com</a> or connect on LinkedIn!</p>
   </section>
   <footer>
     <p>© 2025 Vanshika Goel. All Rights Reserved.</p>
@@ -197,10 +202,9 @@
       ]
     }
   </script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_GA_ID"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.0/dist/vanilla-tilt.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
