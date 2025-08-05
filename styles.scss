@@ -9,7 +9,7 @@ body {
   color: $beige;
 }
 
-.sidebar {
+header {
   a {
     &:hover {
       color: $accent;
@@ -20,11 +20,11 @@ body {
 section {
   &.animate {
     opacity: 0;
-    transform: translateY(50px);
+    transform: scale(0.9);
     transition: opacity 0.5s ease, transform 0.5s ease;
     &.in-view {
       opacity: 1;
-      transform: translateY(0);
+      transform: scale(1);
     }
   }
 }
@@ -42,18 +42,18 @@ h1 span {
   }
 }
 
-.project-card, .blog-card, .skill-card {
+.card {
   &[data-tilt] {
     transform-style: preserve-3d;
   }
-  h3, p, a {
+  h2, p, a {
     transform: translateZ(20px);
   }
 }
 
 @media (max-width: 600px) {
   #home canvas, #projects canvas {
-    height: 250px;
+    height: 150px;
   }
   #cursor { display: none; }
 }
